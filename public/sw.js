@@ -6,7 +6,7 @@
  *   A Vite build fájlnevei tartalmazzák a hash-t, így egy új verzió új fájlneveket kap.
  * Az adatokat (mérések, dokumentumok) ez nem érinti – azok a böngésző tárhelyén vannak.
  */
-const CACHE = 'balance-v1';
+const CACHE = 'balance-v2';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', (event) => {

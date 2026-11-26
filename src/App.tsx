@@ -7,6 +7,7 @@ import {
 } from './lib/storage';
 import { availableMonths, filterByPeriod, sortByTime } from './lib/stats';
 import { bpAdapter } from './lib/io';
+import { bpPdf } from './lib/pdf';
 import { EntryForm } from './components/EntryForm';
 import { MeasurementList } from './components/MeasurementList';
 import { StatsPanel } from './components/StatsPanel';
@@ -110,7 +111,8 @@ export default function App() {
           </div>
         ) : tab === 'data' ? (
           <div className="stack">
-            <ImportExport adapter={bpAdapter} items={measurements} filtered={filtered} periodLabel={label} onImport={updateMeasurements} />
+            <ImportExport adapter={bpAdapter} items={measurements} filtered={filtered} periodLabel={label} onImport={updateMeasurements}
+              buildPdf={(items, opts, pl) => bpPdf(items, settings, opts, pl)} />
             <SettingsPanel settings={settings} onChange={updateSettings} count={measurements.length} onClearAll={() => updateMeasurements([])} />
           </div>
         ) : tab === 'football' ? (

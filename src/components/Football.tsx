@@ -12,6 +12,7 @@ import type { Period } from '../lib/types';
 import { PeriodSelect, periodLabel } from './ui';
 import { ImportExport } from './ImportExport';
 import { footballAdapter } from '../lib/footballIo';
+import { footballPdf } from '../lib/pdf';
 
 type View = 'log' | 'summary' | 'data';
 type Kind = 'match' | 'training';
@@ -68,7 +69,8 @@ export function Football({ entries, onChange }: Props) {
       ) : (
         <div className="stack">
           <ImportExport adapter={footballAdapter} items={entries} filtered={filtered}
-            periodLabel={periodLabel(period).replace('Összes mérés', 'Összes')} onImport={(xs) => onChange(sortFootball(xs))} />
+            periodLabel={periodLabel(period).replace('Összes mérés', 'Összes')} onImport={(xs) => onChange(sortFootball(xs))}
+            buildPdf={footballPdf} />
         </div>
       )}
     </>

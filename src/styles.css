@@ -361,3 +361,27 @@ b, .kpi-value, .bp, .time, .pulse { font-variant-numeric: tabular-nums; }
 @media (max-width: 400px) { .tabs-bottom button { font-size: 11px; padding: 6px 2px; } }
 .kpi-big { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; font-variant-numeric: tabular-nums; }
 .kpi-line .dot { margin-right: 2px; }
+
+/* ---------- PDF export */
+.choice-row.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 520px) { .choice-row.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pdf-parts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin: 2px 0 12px; }
+
+/* ---------- dátummezők: az iOS Safari saját minimális szélességet ad nekik, ami kilóg a kártyából */
+input[type="date"], input[type="datetime-local"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  text-align: left;
+  min-height: 44px;
+}
+input[type="date"]::-webkit-date-and-time-value,
+input[type="datetime-local"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
+input[type="date"]::-webkit-datetime-edit,
+input[type="datetime-local"]::-webkit-datetime-edit { padding: 0; }
+.field { min-width: 0; }
+.form-grid > * { min-width: 0; }

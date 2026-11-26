@@ -18,7 +18,8 @@ Szerver nincs: minden adat az eszközön marad.
 - **Elemzés** – átlag (`ROUND(AVERAGE)`), szórás (`STDEV.P`, mint az Excelben), min–max, megoszlás a céltartomány
   szerint (< 135/85, ideálisan < 130/80); grafikon SYS/DIA oszlopokkal, célvonalakkal, opcionális pulzussal,
   mérésenként vagy napi átlagban. Időszak: összes / utolsó 30 nap / hónap
-- **Adatok** – export (CSV, XLSX, XLS – csak a táblázat: Időpont, Szisztolés, Diasztolés, Pulzus), import
+- **Adatok** – **PDF riport** (összesítő havi bontással, grafikon, mérések táblázata – alapból mind benne, kikapcsolható),
+  export (CSV, XLSX, XLS – csak a táblázat: Időpont, Szisztolés, Diasztolés, Pulzus), import
   (a régi, havi lapos `vernyomas.xlsx` minden lapját is beolvassa, duplikátumokat kihagy), minta fájlok,
   célértékek beállítása
 - **Dokumentumok** – orvosi dokumentumok feltöltése (PDF vagy kép, mobilon fotó is), cím, dátum, típus
@@ -33,7 +34,7 @@ Szerver nincs: minden adat az eszközön marad.
     ebből gól, megjegyzés
   - *Összesítő:* gól, gólpassz, percek, (gól+gólpassz)/90 perc, mérlegek (GY/D/V), sérülések, pozíciók;
     edzéseknél átlag pontszám, lövés/gól és hatékonyság, minőség megoszlás; pontszám-grafikon
-  - *Adatok:* export / import / minta fájl (CSV, XLSX, XLS) – egy táblázat, mérkőzések és edzések együtt,
+  - *Adatok:* **PDF riport** (összesítő, pontszám-grafikon, mérkőzések és edzések táblázata), export / import / minta fájl (CSV, XLSX, XLS) – egy táblázat, mérkőzések és edzések együtt,
     „Típus” oszloppal; ami az adott típusnál nem értelmezett, üres. Oszlopok: Dátum, Típus, Pontszám, Ellenfél,
     Saját gól, Ellenfél gól, Eredmény (csak tájékoztató), Játszott percek, Pozíció, Gólok, Gólpasszok,
     Szubjektív értékelés, Sérülés helye, Sérülés súlyossága, Edzés minősége, Lövések, Lövésből gól, Megjegyzés
@@ -147,6 +148,7 @@ src/
     types.ts              Measurement, Settings, MedicalDocument
     football.ts           foci típusok, validálás, összesítő számítások
     footballIo.ts         foci export / import (CSV, XLSX, XLS)
+    pdf/                  PDF riportok (jsPDF): közös motor, vérnyomás, foci – csak exportkor töltődik be
     io.ts                 vérnyomás import/export
     table.ts              közös CSV/XLSX/XLS olvasás-írás
     stats.ts              átlag, STDEV.P, szűrés, napi átlag, kategóriák
@@ -158,6 +160,7 @@ public/
   manifest.webmanifest    PWA leíró (név, ikonok, színek)
   sw.js                   service worker – offline működés
   icons/                  PWA és iPhone kezdőképernyő ikonok
+  fonts/                  DejaVu Sans részhalmaz a PDF-hez (magyar ékezetek), licenc mellette
 assets/                   natív app ikon forrásképek (mérleg, zöld háttér)
 .github/workflows/        automatikus közzététel GitHub Pages-re
 ```
