@@ -84,3 +84,10 @@ describe('foci export / import', () => {
 function sortedCopy(xs: FootballEntry[]) {
   return [...xs].sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
 }
+
+describe('foci export sorrend', () => {
+  it('a legfrissebb bejegyzés van elöl', () => {
+    const lines = new TextDecoder().decode(buildFootballExport(SAMPLE_FOOTBALL, 'csv')).trim().split(/\r?\n/);
+    expect(lines.slice(1).map((l) => l.slice(0, 11))).toEqual(['2026.09.13.', '2026.09.11.', '2026.09.09.', '2026.09.06.']);
+  });
+});

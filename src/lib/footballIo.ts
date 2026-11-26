@@ -58,7 +58,7 @@ const csvCell = (v: Cell) => {
 };
 
 export function buildFootballExport(entries: FootballEntry[], format: ExportFormat): Uint8Array {
-  const sorted = sortFootball(entries);
+  const sorted = sortFootball(entries).reverse(); // legfrissebb elöl
   if (format === 'csv') {
     const lines = [FOOTBALL_HEADERS.join(';')];
     for (const e of sorted) {

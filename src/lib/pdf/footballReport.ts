@@ -11,8 +11,9 @@ const d = (s: string) => `${s.replaceAll('-', '.')}.`;
 /** Foci PDF: összesítő (mérkőzés + edzés), pontszám-grafikon, mérkőzések és edzések táblázata. */
 export function buildFootballPdf(entries: FootballEntry[], opts: PdfOptions, periodLabel: string, fonts: FontData): Uint8Array {
   const all = sortFootball(entries);
-  const matches = all.filter((e): e is MatchEntry => e.type === 'match');
-  const trainings = all.filter((e): e is TrainingEntry => e.type === 'training');
+  // a táblázatokban a legfrissebb van elöl (a grafikon marad időrendben)
+  const matches = all.filter((e): e is MatchEntry => e.type === 'match').reverse();
+  const trainings = all.filter((e): e is TrainingEntry => e.type === 'training').reverse();
   const rep = new Report(fonts, `Balance · Foci napló · készült: ${today()}`);
   const range = all.length ? `${d(all[0].date)} – ${d(all.at(-1)!.date)}` : 'nincs adat';
   rep.header('Foci napló', `${periodLabel} · ${range} · ${matches.length} mérkőzés, ${trainings.length} edzés`);

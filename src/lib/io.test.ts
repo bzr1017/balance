@@ -40,7 +40,7 @@ describe('export / import oda-vissza', () => {
     const wb = XLSX.read(buildExport(sample, 'xlsx'), { type: 'array' });
     const rows = XLSX.utils.sheet_to_json<unknown[]>(wb.Sheets[wb.SheetNames[0]], { header: 1 });
     expect(rows[0]).toEqual(['Időpont', 'Szisztolés', 'Diasztolés', 'Pulzus']);
-    expect(rows[1]).toHaveLength(4);
+    expect(Math.max(...rows.map((r) => r.length))).toBe(4);
   });
   it('CSV pontosvesszővel és BOM-mal', () => {
     const text = new TextDecoder('utf-8', { ignoreBOM: true }).decode(buildExport(sample, 'csv'));
@@ -90,5 +90,14 @@ describe.skipIf(!ORIGINAL || !existsSync(ORIGINAL))('eredeti vernyomas.xlsx', ()
       expect(s.sys.sd!.toFixed(2)).toBe(sdSys);
       expect(s.dia.sd!.toFixed(1)).toBe(sdDia);
     }
+  });
+});
+
+describe('export sorrend', () => {
+  it('a legfrissebb mérés van elöl', () => {
+    const text = new TextDecoder().decode(buildExport(sample, 'csv'));
+    const lines = text.trim().split(/\r?\n/);
+    expect(lines[1]).toMatch(/^2026\.02\.02\. 06:00;/);
+    expect(lines.at(-1)).toMatch(/^2026\.01\.06\. 21:06;/);
   });
 });

@@ -31,7 +31,8 @@ export const BP_COLUMNS: ColumnSpec[] = [
 export const EXPORT_HEADERS = BP_COLUMNS.map((c) => c.header);
 
 export function buildExport(ms: Measurement[], format: ExportFormat): Uint8Array {
-  return buildTable('Vérnyomás', BP_COLUMNS, sortByTime(ms).map((m) => [m.takenAt, m.sys, m.dia, m.pulse]), format);
+  // legfrissebb elöl
+  return buildTable('Vérnyomás', BP_COLUMNS, sortByTime(ms).reverse().map((m) => [m.takenAt, m.sys, m.dia, m.pulse]), format);
 }
 
 /** Mintasorok a letölthető sablonhoz – megmutatják, milyen formában várja az import az adatokat. */

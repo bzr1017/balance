@@ -33,7 +33,7 @@ export function buildBpPdf(measurements: Measurement[], settings: Settings, opts
     rep.note(`Céltartomány: < ${settings.limitSys}/${settings.limitDia} Hgmm (ideálisan < ${settings.targetSys}/${settings.targetDia}). A szórás populációs szórás (Excel: STDEV.P), ugyanúgy, mint a táblázatban.`);
     rep.distribution((['ideal', 'ok', 'high'] as const).map((c) => ({ label: CAT_LABEL[c], count: s.counts[c], color: CAT_COLOR[c] })));
 
-    const months = [...new Set(ms.map((m) => monthKey(m.takenAt)))].sort();
+    const months = [...new Set(ms.map((m) => monthKey(m.takenAt)))].sort().reverse(); // legfrissebb hónap elöl
     if (months.length > 1) {
       rep.y += 2;
       rep.heading('Havi bontás');
@@ -79,10 +79,11 @@ export function buildBpPdf(measurements: Measurement[], settings: Settings, opts
   if (opts.table) {
     rep.y += 2;
     rep.heading('Mérések');
-    const cats = ms.map((m) => classify(m, settings));
+    const rows = [...ms].reverse(); // legfrissebb elöl
+    const cats = rows.map((m) => classify(m, settings));
     rep.table({
       head: [['Dátum', 'Idő', 'Szisztolés', 'Diasztolés', 'Pulzus', 'Besorolás']],
-      body: ms.map((m, i) => [
+      body: rows.map((m, i) => [
         formatHu(m.takenAt).slice(0, 11), m.takenAt.slice(11, 16), m.sys, m.dia, m.pulse ?? '–', CAT_LABEL[cats[i]],
       ]),
       columnStyles: { 2: { halign: 'right' }, 3: { halign: 'right' }, 4: { halign: 'right' } },
@@ -90,8 +91,8 @@ export function buildBpPdf(measurements: Measurement[], settings: Settings, opts
         if (data.section !== 'body') return;
         const c = cats[data.row.index];
         if (data.column.index === 5) data.cell.styles.textColor = CAT_COLOR[c];
-        if (data.column.index === 2 && ms[data.row.index].sys >= settings.limitSys) data.cell.styles.textColor = COLORS.high;
-        if (data.column.index === 3 && ms[data.row.index].dia >= settings.limitDia) data.cell.styles.textColor = COLORS.high;
+        if (data.column.index === 2 && rows[data.row.index].sys >= settings.limitSys) data.cell.styles.textColor = COLORS.high;
+        if (data.column.index === 3 && rows[data.row.index].dia >= settings.limitDia) data.cell.styles.textColor = COLORS.high;
       },
     });
   }
